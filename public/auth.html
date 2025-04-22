@@ -1,71 +1,332 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Auth | MindCare</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Auth | MindCare</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientShift 10s ease infinite alternate;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        #logo-container {
+            position: absolute;
+            top: 20px;
+            left: -200px; /* Initially placed off-screen to the left */
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: slideIn 3s ease-out forwards, logoBounce 1.5s ease-in-out infinite alternate;
+        }
+
+        #logo-container img {
+            height: 180px; /* Increased size of the logo */
+            margin-right: 10px;
+        }
+
+        @keyframes slideIn {
+            from {
+                left: -200px; /* Start position off-screen */
+            }
+            to {
+                left: 20px; /* End position on the screen */
+            }
+        }
+
+        @keyframes logoBounce {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        #auth-container {
+            background-color: rgba(255, 255, 255, 0.08);
+            padding: 40px;
+            width: 400px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: fadeIn 1s ease-in-out;
+            z-index: 20;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translate(-50%, -40%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+
+        #form-title {
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        form input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+            outline: none;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        #toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 14px;
+            color: #007bff;
+            user-select: none;
+        }
+
+        .auth-button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .auth-button:hover {
+            background-color: #0056b3;
+        }
+
+        #toggle-form {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #fff;
+        }
+
+        #toggle-form a {
+            color: #00d4ff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.4);
+            animation: float 4s infinite, drift 7s linear infinite, fadeInParticle 1s forwards;
+            opacity: 0;
+        }
+
+        .particle:nth-child(1) {
+            width: 6px;
+            height: 6px;
+            top: 15%;
+            left: 15%;
+            animation-delay: 0.5s;
+        }
+
+        .particle:nth-child(2) {
+            width: 8px;
+            height: 8px;
+            top: 35%;
+            left: 30%;
+            animation-delay: 1.5s;
+        }
+
+        .particle:nth-child(3) {
+            width: 5px;
+            height: 5px;
+            top: 50%;
+            left: 60%;
+            animation-delay: 0.8s;
+        }
+
+        .particle:nth-child(4) {
+            width: 10px;
+            height: 10px;
+            top: 70%;
+            left: 80%;
+            animation-delay: 2s;
+        }
+
+        .particle:nth-child(5) {
+            width: 7px;
+            height: 7px;
+            top: 85%;
+            left: 20%;
+            animation-delay: 1s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes drift {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(40px);
+            }
+        }
+
+        @keyframes fadeInParticle {
+            from { opacity: 0; }
+            to { opacity: 0.4; }
+        }
+
+        .animation-container {
+            position: absolute;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: riseUp 3s ease-out forwards;
+            z-index: 5;
+        }
+
+        @keyframes riseUp {
+            from {
+                bottom: -100px;
+                opacity: 0;
+            }
+            to {
+                bottom: 50%;
+                opacity: 1;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div id="auth-container">
-    <h2 id="form-title">Login</h2>
-    <form id="auth-form">
-      <input type="text" id="username" placeholder="Username" required>
-      <input type="password" id="password" placeholder="Password" required>
-      <span id="toggle-password">Show</span>
-      <button type="submit">Login</button>
-      <p id="toggle-form">Don't have an account? <a href="#">Sign up</a></p>
-    </form>
-  </div>
 
-  <script>
-    const toggleForm = document.getElementById('toggle-form');
-    const formTitle = document.getElementById('form-title');
-    const authForm = document.getElementById('auth-form');
-    const passwordInput = document.getElementById('password');
-    const togglePassword = document.getElementById('toggle-password');
-    let isLogin = true;
+    <div id="logo-container">
+        <img src="logo.png" alt="logo">
+    </div>
 
-    toggleForm.addEventListener('click', () => {
-      isLogin = !isLogin;
-      formTitle.textContent = isLogin ? 'Login' : 'Signup';
-      authForm.querySelector('button').textContent = isLogin ? 'Login' : 'Signup';
-      toggleForm.innerHTML = isLogin
-        ? "Don't have an account? <a href='#'>Sign up</a>"
-        : "Already have an account? <a href='#'>Login</a>";
-    });
+    <div class="animation-container">
+        <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+        <dotlottie-player src="https://lottie.host/a20577c6-36dd-4780-8c8a-32450b54bf97/3dGWXL84Rp.lottie" background="transparent" speed="1" style="width: 300px; height: 300px" loop autoplay></dotlottie-player>
+    </div>
 
-    togglePassword.addEventListener('click', () => {
-      if (passwordInput.type === "password") {
-        passwordInput.type = "text";
-        togglePassword.textContent = "Hide";
-      } else {
-        passwordInput.type = "password";
-        togglePassword.textContent = "Show";
-      }
-    });
+    <div id="auth-container">
+        <h2 id="form-title">Login</h2>
+        <form id="auth-form">
+            <input type="text" id="username" placeholder="Username" required>
+            <div class="password-container">
+                <input type="password" id="password" placeholder="Password" required>
+                <span id="toggle-password">Show</span>
+            </div>
+            <button type="submit" class="auth-button">Login</button>
+            <p id="toggle-form">Don't have an account? <a href="#">Sign up</a></p>
+        </form>
+    </div>
 
-    authForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
 
-      const res = await fetch(`/api/${isLogin ? 'login' : 'signup'}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
-      });
+    <script>
+        const toggleForm = document.getElementById('toggle-form');
+        const formTitle = document.getElementById('form-title');
+        const authForm = document.getElementById('auth-form');
+        const passwordInput = document.getElementById('password');
+        const togglePassword = document.getElementById('toggle-password');
+        let isLogin = true;
 
-      const data = await res.json();
-      if (data.success) {
-        if (data.success) {
-  window.location.href = '/index.html';
-}
+        toggleForm.addEventListener('click', (e) => {
+            e.preventDefault();
+            isLogin = !isLogin;
+            formTitle.textContent = isLogin ? 'Login' : 'Signup';
+            authForm.querySelector('button').textContent = isLogin ? 'Login' : 'Signup';
+            toggleForm.innerHTML = isLogin
+                ? "Don't have an account? <a href='#'>Sign up</a>"
+                : "Already have an account? <a href='#'>Login</a>";
+        });
 
-        window.location.href = '/index.html';
-      } else {
-        alert(data.message);
-      }
-    });
-  </script>
+        togglePassword.addEventListener('click', () => {
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                togglePassword.textContent = "Hide";
+            } else {
+                passwordInput.type = "password";
+                togglePassword.textContent = "Show";
+            }
+        });
+
+        authForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const res = await fetch(`/api/${isLogin ? 'login' : 'signup'}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password }),
+                });
+
+                const data = await res.json();
+                if (data.success) {
+                    window.location.href = '/index.html';
+                } else {
+                    alert(data.message || 'Authentication failed.');
+                }
+            } catch (error) {
+                alert('Error connecting to server.');
+            }
+        });
+    </script>
 </body>
 </html>

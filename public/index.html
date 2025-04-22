@@ -1,21 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>MindCare Chatbot</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>MindCare AI</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="chat-container">
-    <div id="chat-box"></div>
-    <form id="chat-form">
-      <input type="text" id="user-input" placeholder="Type your message..." autocomplete="off">
-      <button type="submit">Send</button>
-    </form>
-    
-    <button id="logout-button">Logout</button>
-  </div>
+    <div class="floating-bg">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
 
-  <script src="script.js"></script>
+    <div class="wrapper">
+        <div id="chat-container">
+            <h1 class="title">MindCare AI</h1>
+            <div id="chat-box"></div>
+            <form id="chat-form">
+                <input type="text" id="user-input" placeholder="Type your message..." required autocomplete="off">
+                <div class="button-group">
+                    <button type="submit" class="btn">Send</button>
+                    <button type="button" class="btn stop-btn" id="stop-button">Stop Speech</button>
+                </div>
+                <button type="button" class="btn logout-btn" id="logout">Logout</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const chatBox = document.getElementById('chat-box');
+        const chatForm = document.getElementById('chat-form');
+        const userInput = document.getElementById('user-input');
+        const stopButton = document.getElementById('stop-button');
+        const logoutButton = document.getElementById('logout');
+
+        // Append a message to the chat UI
+        function appendMessage(sender, message) {
+            const messageEl = document.createElement('div');
+            messageEl.classList.add(sender === 'user' ? 'user-msg' : 'bot-msg'); // Add the correct class
+            messageEl.textContent = message;
+            chatBox.appendChild(messageEl);
+            chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the latest message
+        }
+
+        // Optional: Text-to-speech (TTS)
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                speechSynthesis.speak(utterance);
+                console.log('Speaking:', text); // For debugging
+            } else {
+                console.log('Text-to-speech is not supported in this browser.');
+            }
+        }
+
+        // Function to stop the speech
+        function stopSpeak() {
+            if ('speechSynthesis' in window) {
+                speechSynthesis.cancel();
+                console.log('Speech stopped.'); // Your "it says I have stopped" equivalent
+            }
+        }
+
+        // Handle form submit
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            appendMessage('user', message);
+            userInput.value = '';
+
+            try {
+                const response = await fetch('/api/chat', { // Replace '/api/chat' with your actual API endpoint
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message }),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                if (data.reply) {
+                    appendMessage('bot', data.reply);
+                    speak(data.reply); // Call the speak function here
+                } else {
+                    appendMessage('bot', 'Error: No response from AI.');
+                }
+            } catch (error) {
+                console.error('Error sending message:', error);
+                appendMessage('bot', 'Something went wrong.');
+            }
+        });
+
+        // Event listener for the stop button
+        stopButton.addEventListener('click', stopSpeak);
+
+        // Event listener for the logout button
+        if (logoutButton) {
+            logoutButton.addEventListener('click', async () => {
+                try {
+                    const response = await fetch('/api/logout', { // Replace '/api/logout' with your actual logout endpoint
+                        method: 'POST', // Or 'GET', depending on your API
+                        headers: {
+                            'Content-Type': 'application/json',
+                            // Potentially include authorization headers if needed
+                        },
+                    });
+
+                    if (response.ok) {
+                        window.location.href = '/auth.html'; // Redirect to your login/signup page
+                    } else {
+                        const data = await response.json();
+                        alert(data.message || 'Logout failed.');
+                    }
+                } catch (error) {
+                    console.error('Error during logout:', error);
+                    alert('An error occurred during logout.');
+                }
+            });
+        }
+    </script>
 </body>
 </html>
