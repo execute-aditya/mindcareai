@@ -1,0 +1,33 @@
+{
+    "name": "mind-care-ai",
+    "version": "1.0.0",
+    "description": "AI chatbot with login/signup and MongoDB-powered conversation storage",
+    "main": "server/index.js",
+    "scripts": {
+        "start": "node server/index.js",
+        "dev": "nodemon server/index.js & npx open http://localhost:5000/auth.html"
+    },
+    "keywords": [
+        "chatbot",
+        "ai",
+        "express",
+        "mongodb",
+        "auth"
+    ],
+    "author": "Your Name",
+    "license": "ISC",
+    "dependencies": {
+        "axios": "^1.8.4",
+        "bcryptjs": "^2.4.3",
+        "body-parser": "^2.2.0",
+        "dotenv": "^16.5.0",
+        "express": "^4.21.2",
+        "express-session": "^1.18.1",
+        "mind-care-ai": "file:",
+        "mongoose": "^7.8.6"
+    },
+    "devDependencies": {
+        "nodemon": "^3.0.1",
+        "open": "^10.1.1"
+    }
+}

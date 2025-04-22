@@ -1,0 +1,113 @@
+/* style.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('https://img.freepik.com/free-vector/abstract-realistic-technology-particle-background_52683-33063.jpg?semt=ais_hybrid&w=740');
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  #chat-container,
+  #auth-container {
+    background-color: rgba(255, 255, 255, 0.85); /* Slightly transparent white */
+    border-radius: 12px; /* More pronounced rounded corners */
+    padding: 30px; /* Increased padding */
+    width: 450px; /* Same width */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* More prominent shadow */
+    backdrop-filter: blur(10px); /* Frosted glass effect */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle border */
+  }
+  
+  #chat-box {
+    height: 400px; /* Same height */
+    overflow-y: auto;
+    border: 1px solid rgba(0, 0, 0, 0.1); /* Subtle border */
+    margin-bottom: 20px;
+    padding: 15px; /* Adjusted padding */
+    background-color: rgba(245, 245, 245, 0.9); /* Light gray with slight transparency */
+    border-radius: 8px; /* Rounded corners for chat box */
+  }
+  
+  form input,
+  form button {
+    width: 100%;
+    margin-top: 9px;
+    padding: 12px; /* Increased padding */
+    font-size: 16px; /* Slightly larger text */
+    border-radius: 6px; /* Rounded corners for inputs and buttons */
+    border: 1px solid #ccc; /* Keep the border for inputs */
+    outline: none; /* Remove default focus outline for inputs */
+  }
+  
+  form button {
+    background-color: #007bff; /* Blue button */
+    color: white;
+    border: none; /* Remove border for button */
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Hover effect */
+  }
+  
+  form button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+  
+  #toggle-password {
+    cursor: pointer;
+    font-size: 0.9em;
+    color: blue;
+  }
+  
+  .user-msg {
+    text-align: right;
+    background: #d4edda;
+    margin: 5px;
+    padding: 8px;
+    border-radius: 10px;
+  }
+  
+  .bot-msg {
+    text-align: left;
+    background: #f1f1f1;
+    margin: 5px;
+    padding: 8px;
+    border-radius: 10px;
+  }
+  /* style.css */
+
+/* ... other styles ... */
+
+button#stop-speech { /* Or just style the button element if it's the only one below the form */
+    padding: 10px 15px;
+    background-color: #dc3545; /* Red color for stop */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 10px;
+  }
+  
+  
+  /* style.css */
+
+/* ... other styles ... */
+
+button#logout-button {
+    padding: 8px 12px;
+    background-color: #e2e3e5; /* Light gray */
+    color: #383d41; /* Dark gray text */
+    border: 1px solid #d1d3d5;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+  button#logout-button:hover {
+    background-color: #c6c8ca;
+  }
