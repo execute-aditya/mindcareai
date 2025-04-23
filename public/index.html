@@ -14,7 +14,6 @@
         <span></span>
         <span></span>
     </div>
-
     <div class="wrapper">
         <div id="chat-container">
             <h1 class="title">MindCare AI</h1>
@@ -29,14 +28,12 @@
             </form>
         </div>
     </div>
-
     <script>
         const chatBox = document.getElementById('chat-box');
         const chatForm = document.getElementById('chat-form');
         const userInput = document.getElementById('user-input');
         const stopButton = document.getElementById('stop-button');
         const logoutButton = document.getElementById('logout');
-
         // Append a message to the chat UI
         function appendMessage(sender, message) {
             const messageEl = document.createElement('div');
@@ -45,7 +42,6 @@
             chatBox.appendChild(messageEl);
             chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the latest message
         }
-
         // Optional: Text-to-speech (TTS)
         function speak(text) {
             if ('speechSynthesis' in window) {
@@ -57,7 +53,6 @@
                 console.log('Text-to-speech is not supported in this browser.');
             }
         }
-
         // Function to stop the speech
         function stopSpeak() {
             if ('speechSynthesis' in window) {
@@ -65,16 +60,13 @@
                 console.log('Speech stopped.'); // Your "it says I have stopped" equivalent
             }
         }
-
         // Handle form submit
         chatForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const message = userInput.value.trim();
             if (!message) return;
-
             appendMessage('user', message);
             userInput.value = '';
-
             try {
                 const response = await fetch('/api/chat', { // Replace '/api/chat' with your actual API endpoint
                     method: 'POST',
@@ -83,11 +75,9 @@
                     },
                     body: JSON.stringify({ message }),
                 });
-
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-
                 const data = await response.json();
                 if (data.reply) {
                     appendMessage('bot', data.reply);
@@ -100,10 +90,8 @@
                 appendMessage('bot', 'Something went wrong.');
             }
         });
-
         // Event listener for the stop button
         stopButton.addEventListener('click', stopSpeak);
-
         // Event listener for the logout button
         if (logoutButton) {
             logoutButton.addEventListener('click', async () => {
@@ -115,7 +103,6 @@
                             // Potentially include authorization headers if needed
                         },
                     });
-
                     if (response.ok) {
                         window.location.href = '/auth.html'; // Redirect to your login/signup page
                     } else {

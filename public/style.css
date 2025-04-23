@@ -4,7 +4,6 @@
   margin: 0;
   padding: 0;
 }
-
 body {
   font-family: 'Roboto', sans-serif;
   background: linear-gradient(to right, #a8edea, #fed6e3);
@@ -15,7 +14,6 @@ body {
   align-items: center;
   position: relative;
 }
-
 /* Floating Background Animation */
 .floating-bg {
   position: absolute;
@@ -26,7 +24,6 @@ body {
   z-index: 0;
   overflow: hidden;
 }
-
 .floating-bg span {
   position: absolute;
   display: block;
@@ -35,7 +32,6 @@ body {
   animation: float 14s ease-in-out infinite alternate;
   opacity: 0.6;
 }
-
 .floating-bg span:nth-child(1) {
   width: 60px;
   height: 60px;
@@ -116,7 +112,6 @@ body {
   background-color: rgba(250, 128, 114, 0.4); /* Salmon */
   animation-delay: 7s;
 }
-
 @keyframes float {
   0%, 100% {
       transform: translateY(0px);
@@ -125,7 +120,6 @@ body {
       transform: translateY(-30px);
   }
 }
-
 /* Wrapper and Chat Container */
 .wrapper {
   z-index: 1;
@@ -134,7 +128,6 @@ body {
   align-items: center;
   width: 100%;
 }
-
 #chat-container {
   background: rgba(255, 255, 255, 0.95);
   border-radius: 16px;
@@ -147,7 +140,6 @@ body {
   display: flex;
   flex-direction: column;
 }
-
 @keyframes fadeIn {
   from {
       opacity: 0;
@@ -158,7 +150,6 @@ body {
       transform: scale(1);
   }
 }
-
 /* Title */
 .title {
   text-align: center;
@@ -167,7 +158,6 @@ body {
   margin-bottom: 20px;
   font-size: 2rem;
 }
-
 /* Chat Box */
 #chat-box {
   height: 320px;
@@ -180,14 +170,12 @@ body {
   display: flex; /* Enable flexbox for message alignment */
   flex-direction: column; /* Stack messages vertically */
 }
-
 /* Form */
 form {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-
 form input {
   width: 100%;
   padding: 12px;
@@ -197,18 +185,15 @@ form input {
   outline: none;
   transition: 0.3s;
 }
-
 form input:focus {
   border-color: #007bff;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
 }
-
 /* Button Group */
 .button-group {
   display: flex;
   gap: 10px;
 }
-
 /* Base Button Style */
 .btn {
   padding: 12px;
@@ -222,24 +207,20 @@ form input:focus {
   transition: background-position 0.4s ease, transform 0.2s ease;
   background-size: 200% auto;
 }
-
 .btn:hover {
   background-position: right center;
   transform: scale(1.03);
 }
-
 /* Stop Button Style */
 .stop-btn {
   background: linear-gradient(to right, #ff6b6b, #ff8e53); /* A more distinct color */
   box-shadow: none;
   transform: none;
 }
-
 .stop-btn:hover {
   background-position: right center;
   box-shadow: 0 4px 15px rgba(255, 99, 71, 0.3);
 }
-
 /* Logout Button Style (Targeting the ID 'logout') */
 #logout {
   margin-top: 10px;
@@ -253,13 +234,11 @@ form input:focus {
   transition: background-position 0.4s ease, transform 0.2s ease;
   background-size: 200% auto;
 }
-
 #logout:hover {
   background-position: right center;
   box-shadow: 0 4px 15px rgba(255, 105, 135, 0.3);
   transform: scale(1.03); /* Consistent hover effect */
 }
-
 /* Message Styles */
 .user-msg {
   text-align: right;
@@ -271,7 +250,6 @@ form input:focus {
   max-width: 80%;
   align-self: flex-end; /* Align to the right in flex container */
 }
-
 .bot-msg {
   text-align: left;
   background: #e9135e; /* Light grey for bot messages */

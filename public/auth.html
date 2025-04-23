@@ -261,6 +261,8 @@
     <div id="auth-container">
         <h2 id="form-title">Login</h2>
         <form id="auth-form">
+            <input type="text" id="name" name="name" placeholder="Full Name" style="display: none;">
+<input type="tel" id="mobile" name="mobile" placeholder="Mobile Number" style="display: none;">
             <input type="text" id="username" placeholder="Username" required>
             <div class="password-container">
                 <input type="password" id="password" placeholder="Password" required>
@@ -293,8 +295,12 @@
             toggleForm.innerHTML = isLogin
                 ? "Don't have an account? <a href='#'>Sign up</a>"
                 : "Already have an account? <a href='#'>Login</a>";
+        
+            // Toggle name and mobile fields
+            document.getElementById('name').style.display = isLogin ? 'none' : 'block';
+            document.getElementById('mobile').style.display = isLogin ? 'none' : 'block';
         });
-
+        
         togglePassword.addEventListener('click', () => {
             if (passwordInput.type === "password") {
                 passwordInput.type = "text";
@@ -309,12 +315,32 @@
             e.preventDefault();
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
+            const name = document.getElementById('name').value;
+            const mobile = document.getElementById('mobile').value;
+
+            // Validate Full Name (text only)
+            const nameRegex = /^[a-zA-Z\s]+$/;
+            if (!isLogin && !nameRegex.test(name)) {
+                alert('Full Name should contain only letters and spaces.');
+                return;
+            }
+
+            // Validate Mobile Number (exactly 10 digits)
+            const mobileRegex = /^[0-9]{10}$/;
+            if (!isLogin && !mobileRegex.test(mobile)) {
+                alert('Mobile Number should contain exactly 10 numeric digits.');
+                return;
+            }
 
             try {
                 const res = await fetch(`/api/${isLogin ? 'login' : 'signup'}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password }),
+                    body: JSON.stringify(
+                        isLogin 
+                        ? { username, password } 
+                        : { name, mobile, username, password }
+                    )
                 });
 
                 const data = await res.json();
@@ -330,3 +356,4 @@
     </script>
 </body>
 </html>
+``` 

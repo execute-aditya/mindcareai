@@ -3,11 +3,9 @@ const chatForm = document.getElementById('chat-form');
 const userInput = document.getElementById('user-input');
 const stopButton = document.createElement('button'); // Create a stop button
 const logoutButton = document.getElementById('logout'); // Correctly target the logout button in the new HTML
-
 stopButton.innerText = 'Stop Speech';
 stopButton.classList.add('btn', 'stop-btn'); // Add classes for styling
 stopButton.style.marginTop = '10px'; // Add some spacing
-
 // INSERT THE LINE HERE:
 const buttonGroup = chatForm.querySelector('.button-group');
 if (buttonGroup) {
@@ -15,7 +13,6 @@ if (buttonGroup) {
 } else {
     chatForm.parentNode.insertBefore(stopButton, chatForm.nextSibling);
 }
-
 // Append a message to the chat UI
 function addMessage(role, content) {
     const messageEl = document.createElement('div');
@@ -24,23 +21,19 @@ function addMessage(role, content) {
     chatBox.appendChild(messageEl);
     chatBox.scrollTop = chatBox.scrollHeight;
 }
-
 // Handle form submit
 chatForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const message = userInput.value.trim();
     if (!message) return;
-
     addMessage('user', message);
     userInput.value = '';
-
     try {
         const res = await fetch('/api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message })
         });
-
         const data = await res.json();
         if (data.reply) {
             addMessage('bot', data.reply);
@@ -53,7 +46,6 @@ chatForm.addEventListener('submit', async (e) => {
         addMessage('bot', 'Something went wrong.');
     }
 });
-
 // Optional: Text-to-speech (TTS)
 function speak(text) {
     if ('speechSynthesis' in window) {
@@ -62,7 +54,6 @@ function speak(text) {
         speechSynthesis.speak(utterance);
     }
 }
-
 // Function to stop the speech
 function stopSpeak() {
     if ('speechSynthesis' in window) {
@@ -70,10 +61,8 @@ function stopSpeak() {
         console.log('Speech stopped.'); // Your "it says I have stopped" equivalent
     }
 }
-
 // Event listener for the stop button
 stopButton.addEventListener('click', stopSpeak);
-
 // Event listener for the logout button
 if (logoutButton) {
     logoutButton.addEventListener('click', async () => {
@@ -82,7 +71,6 @@ if (logoutButton) {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
             });
-
             const data = await res.json();
             if (data.success) {
                 window.location.href = '/auth.html'; // Redirect to the login page
