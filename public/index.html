@@ -68,26 +68,26 @@
             appendMessage('user', message);
             userInput.value = '';
             try {
-                const response = await fetch('/api/chat', { // Replace '/api/chat' with your actual API endpoint
+                const response = await fetch('/api/chat', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ message }),
                 });
+
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
+
                 const data = await response.json();
-                if (data.reply) {
+                if (data.success && data.reply) {
                     appendMessage('bot', data.reply);
-                    speak(data.reply); // Call the speak function here
+                    speak(data.reply);
                 } else {
-                    appendMessage('bot', 'Error: No response from AI.');
+                    appendMessage('bot', data.message || 'Error: No response from AI.');
                 }
             } catch (error) {
                 console.error('Error sending message:', error);
-                appendMessage('bot', 'Something went wrong.');
+                appendMessage('bot', 'Something went wrong. Please try again.');
             }
         });
         // Event listener for the stop button

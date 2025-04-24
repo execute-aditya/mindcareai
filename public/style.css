@@ -242,7 +242,7 @@ form input:focus {
 /* Message Styles */
 .user-msg {
   text-align: right;
-  background: #d1f7c4; /* Light green for user messages */
+  background: #77e154; /* Light green for user messages */
   margin: 6px 0 6px auto; /* Push to the right */
   padding: 10px;
   border-radius: 12px 12px 0 12px;
@@ -252,7 +252,7 @@ form input:focus {
 }
 .bot-msg {
   text-align: left;
-  background: #e9135e; /* Light grey for bot messages */
+  background: #ec407c; /* Light grey for bot messages */
   margin: 6px auto 6px 0; /* Push to the left */
   padding: 10px;
   border-radius: 12px 12px 12px 0;

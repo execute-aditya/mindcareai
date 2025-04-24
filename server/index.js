@@ -34,7 +34,7 @@ app.post('/api/login', async (req, res) => {
   console.log('Username:', username, 'Password:', password); // Check extracted values
   const user = await User.findOne({ username });
   console.log('User from database:', user); // See if the user is found
-  if (user /*&& await bcrypt.compare(password, user.password)*/) {
+  if (user && await bcrypt.compare(password, user.password)) {
       console.log('Login successful');
       req.session.userId = user._id;
       res.json({ success: true });
@@ -76,24 +76,32 @@ app.post('/api/chat', async (req, res) => {
   const { message } = req.body;
   if (!userId) return res.status(401).json({ success: false, message: "Not logged in" });
   try {
-      await Message.create({ userId, role: 'user', content: message });
-      const response = await axios.post('https://api.groq.com/openai/v1/chat/completions', {
+    await Message.create({ userId, role: 'user', content: message });
+    const response = await axios.post('https://api.groq.com/openai/v1/chat/completions', {
         model: 'llama3-8b-8192',
         messages: [{ role: 'user', content: message }],
         temperature: 0.7
-      }, {
+    }, {
         headers: {
-          Authorization: `Bearer ${process.env.GROQ_KEY}`,
-          'Content-Type': 'application/json'
+            Authorization: `Bearer ${process.env.GROQ_KEY}`,
+            'Content-Type': 'application/json'
         }
-      });
-      const aiResponse = response.data.choices[0].message.content;
-      await Message.create({ userId, role: 'bot', content: aiResponse });
-      res.json({ success: true, response: aiResponse });
-    } catch (error) {
-      console.error('Error during chat:', error);
-      res.status(500).json({ success: false, message: "Failed to process chat request", error: error.message });
+    });
+
+    console.log('AI API Response:', response.data); // Log the full response
+
+    const aiResponse = response.data.choices[0]?.message?.content;
+    if (!aiResponse) {
+        console.error('AI response is empty or invalid:', response.data);
+        return res.status(500).json({ success: false, message: 'AI response is invalid' });
     }
+
+    await Message.create({ userId, role: 'bot', content: aiResponse });
+    res.json({ success: true, reply: aiResponse });
+} catch (error) {
+    console.error('Error during chat:', error);
+    res.status(500).json({ success: false, message: "Failed to process chat request", error: error.message });
+}
 });
 app.get('/api/check-session', (req, res) => {
   if (req.session.userId) {
